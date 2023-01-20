@@ -4,10 +4,18 @@ import discord
 
 load_dotenv(find_dotenv())
 bot = discord.Bot()
+cogs_list = [
+    'test'
+]
 
 
 @bot.event
 async def on_ready():
     print(f"{bot.user} is ready and online!")
 
-bot.run(os.getenv('TOKEN'))
+
+for cog in cogs_list:
+    bot.load_extension(f'cogs.{cog}')
+
+
+bot.run(os.getenv("TOKEN"))
