@@ -6,6 +6,7 @@ load_dotenv(find_dotenv())
 bot = discord.Bot()
 cogs_list = [
     'test'
+    'hello'
 ]
 
 
