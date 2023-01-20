@@ -7,7 +7,7 @@ class Hello(commands.Cog):
         self.bot = bot
 
     @discord.command(description="Sends a nice message to user")
-    async def Hello(self, ctx):
+    async def hello(self, ctx):
         await ctx.respond("Hello!")
 
 
