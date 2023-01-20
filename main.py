@@ -5,7 +5,8 @@ import discord
 load_dotenv(find_dotenv())
 bot = discord.Bot()
 cogs_list = [
-    'test'
+    "test",
+    "hello"
 ]
 
 
