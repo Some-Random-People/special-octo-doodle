@@ -18,6 +18,9 @@ class Mon:
         except Exception:
             print("Unable to connect to the server.")
 
+    def add_user(self, disco, osu):
+        mydict = { "discordId" : disco, "osuId" : osu, "connected" : True }
+        self.mycol.insert_one(mydict)
     def asd(self):
         mydict = {}
         try:
