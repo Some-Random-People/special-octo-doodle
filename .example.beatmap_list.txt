@@ -1,0 +1,4 @@
+beatmap1ID
+beatmap2ID
+beatmap3ID
+...
