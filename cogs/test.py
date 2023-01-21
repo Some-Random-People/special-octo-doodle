@@ -6,6 +6,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
+
 class Test(commands.Cog):
     def __init__(self, bot):
         self.bot = bot

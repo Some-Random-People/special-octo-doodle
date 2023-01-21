@@ -4,10 +4,12 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-class Mon():
+
+class Mon:
     def __init__(self):
         self.mycol = None
         self.mydb = None
+
     def connect(self):
         try:
             client = pymongo.MongoClient(os.getenv("CONN_STR"), serverSelectionTimeoutMS=5000)
@@ -16,11 +18,9 @@ class Mon():
         except Exception:
             print("Unable to connect to the server.")
 
-
     def asd(self):
         mydict = {}
         try:
-            #print(client.server_info())
             self.mycol.insert_one(mydict)
             return self.mydb.list_collection_names()
         except Exception:

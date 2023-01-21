@@ -7,11 +7,12 @@ load_dotenv(find_dotenv())
 bot = discord.Bot()
 cogs_list = [
     "test",
-    "hello"
+    "hello",
+    "verify"
 ]
 
-bot.database = mongo.Mon()
-bot.database.connect()
+#bot.database = mongo.Mon()
+#bot.database.connect()
 
 @bot.event
 async def on_ready():
