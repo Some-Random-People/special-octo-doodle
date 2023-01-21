@@ -7,12 +7,12 @@ from dotenv import load_dotenv, find_dotenv
 load_dotenv(find_dotenv())
 
 
-class Test(commands.Cog):
+class Pp(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    @discord.command(description="Sends the bot's latency.")
-    async def test(self, ctx, userid: str):
+    @discord.command(description="Checks player's pp")
+    async def pp(self, ctx, userid: str):
         response = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid}/",
                                 headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"},
                                 )
@@ -20,4 +20,4 @@ class Test(commands.Cog):
 
 
 def setup(bot):
-    bot.add_cog(Test(bot))
+    bot.add_cog(Pp(bot))
