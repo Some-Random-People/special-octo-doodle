@@ -21,6 +21,28 @@ class Mon:
     def add_user(self, disco, osu):
         mydict = { "discordId" : disco, "osuId" : osu, "connected" : True }
         self.mycol.insert_one(mydict)
+
+    def check_user_discord(self, discordId):
+        myquery = { "discordId" : discordId}
+        x = self.mycol.find(myquery,{"_id" : 0})
+        result = None
+        print(x)
+        for i in x:
+            result = i
+        if result:
+            return result
+        else:
+            return False
+    def check_user_osu(self, osuId):
+        myquery = { "osuId" : osuId}
+        x = self.mycol.find(myquery,{"_id" : 0})
+        result = None
+        for i in x:
+            result = i
+        if result:
+            return result
+        else:
+            return False
     def asd(self):
         mydict = {}
         try:
