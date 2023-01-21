@@ -1,5 +1,6 @@
 import pymongo
 import os
+from datetime import datetime
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -19,6 +20,16 @@ class Mon:
             print("Unable to connect to the server.")
 
     def verify(self, disco, osu, verify_map, timestamp):
+        myquery = {"discordId": disco}
+        x = self.mycol.find(myquery, {"_id" : 0, "timestamp" : 1})
+        result = None
+        for i in x:
+            result = i
+        if result:
+            if result["timestamp"] < datetime.now():
+                newvalue = {"$set" : {"map" : verify_map, "timestamp" : timestamp}}
+                self.mycol.update_one(myquery, newvalue)
+                return
         mydict = {"discordId": disco, "osuId": osu, "connected": False, "map" : verify_map, "timestamp" : timestamp}
         self.mycol.insert_one(mydict)
         
