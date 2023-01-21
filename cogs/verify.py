@@ -81,8 +81,9 @@ class Verify(commands.Cog):
             color=discord.Color.green()
         )
         embed.add_field(name="How to verify?",
-                        value=f"To verify you account you have to play map that is shown below. "
-                              f"You have to do that in 15 minutes. \n**{timestamp.strftime('%d/%m/%Y %H:%M:%S')}**",
+                        value=f"To verify you account you have to play map that is shown below using No Fail then "
+                              f"type '/complete'. You have to do that in 15 minutes."
+                              f"\n**{timestamp.strftime('%d/%m/%Y %H:%M:%S')}**",
                         inline=False)
         embed.add_field(name="Map",
                         value=f"[osu! beatmap website]({map_response['url']})"
@@ -110,7 +111,7 @@ class Verify(commands.Cog):
                 response = requests.get(f"https://osu.ppy.sh/api/v2/users/{user_data['osuId']}/scores/recent",
                                         headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"})
                 response = response.json()
-                if str(response[0]["beatmap"]["id"]) == str(user_data["map"]):
+                if str(response[0]["beatmap"]["id"]) == str(user_data["map"]) and "NF" in response[0]["mods"]:
                     self.bot.database.add_user(ctx.author.id, user_data["osuId"])
                     embed = discord.Embed(
                         title="Verification complete",
@@ -122,7 +123,8 @@ class Verify(commands.Cog):
                 else:
                     embed = discord.Embed(
                         title="Verification error",
-                        description=f"You have not played the map that was shown in verification process.",
+                        description=f"You have not played the map that was shown in verification process or you are "
+                                    f"not using NF.",
                         color=discord.Color.red()
                     )
                     await ctx.respond(embed=embed, ephemeral=True)
