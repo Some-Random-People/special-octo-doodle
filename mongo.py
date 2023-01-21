@@ -31,7 +31,6 @@ class Mon:
         myquery = { "discordId" : discordId}
         x = self.mycol.find(myquery,{"_id" : 0})
         result = None
-        print(x)
         for i in x:
             result = i
         if result:
