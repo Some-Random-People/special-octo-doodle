@@ -1,4 +1,5 @@
 import os
+import mongo
 from dotenv import load_dotenv, find_dotenv
 import discord
 
@@ -9,6 +10,8 @@ cogs_list = [
     "hello"
 ]
 
+bot.database = mongo.Mon()
+bot.database.connect()
 
 @bot.event
 async def on_ready():
