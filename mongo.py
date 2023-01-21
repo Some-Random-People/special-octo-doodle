@@ -18,9 +18,14 @@ class Mon:
         except Exception:
             print("Unable to connect to the server.")
 
-    def add_user(self, disco, osu):
-        mydict = { "discordId" : disco, "osuId" : osu, "connected" : True }
+    def verify(self, disco, osu, verify_map, timestamp):
+        mydict = {"discordId": disco, "osuId": osu, "connected": False, "map" : verify_map, "timestamp" : timestamp}
         self.mycol.insert_one(mydict)
+        
+    def add_user(self, disco, osu):
+        mydict = { "discordId" : disco, "osuId" : osu}
+        newvalue = { "$unset": {"map" : 1, "timestamp" : 1}, "$set" : {"connected" : True}}
+        self.mycol.update_one(mydict, newvalue)
 
     def check_user_discord(self, discordId):
         myquery = { "discordId" : discordId}
@@ -43,10 +48,3 @@ class Mon:
             return result
         else:
             return False
-    def asd(self):
-        mydict = {}
-        try:
-            self.mycol.insert_one(mydict)
-            return self.mydb.list_collection_names()
-        except Exception:
-            print("Unable to connect to the server.")
