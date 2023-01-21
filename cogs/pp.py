@@ -1,6 +1,7 @@
 import os
 import discord
 import requests
+from Functions.rank_plot import plots
 from discord.ext import commands
 from dotenv import load_dotenv, find_dotenv
 
@@ -11,11 +12,20 @@ class Pp(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+
     @discord.command(description="Checks player's pp")
     async def pp(self, ctx, userid: str):
         response = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid}/",
                                 headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"},
                                 )
+        if response.status_code == 404:
+            embed = discord.Embed(
+                title="Verification error",
+                description=f"User with user id {userid} not found.",
+                color=discord.Color.red()
+            )
+            await ctx.respond(embed=embed, ephemeral=True)
+            return
         await ctx.respond(response.json()["statistics"]["pp"])
 
     @discord.command(description = "Show profile")
@@ -43,7 +53,7 @@ class Pp(commands.Cog):
         else:
             online_status = ":red_circle:"
 
-
+        plots(response["rank_history"]["data"])
 
         embed = discord.Embed(
             title=userid + "'s Profile",
@@ -60,9 +70,10 @@ class Pp(commands.Cog):
                     )
 
         embed.set_thumbnail(url=response["avatar_url"])
+        file = discord.File("./Temp/plot.png", filename="plot.png")
+        embed.set_image(url = "attachment://plot.png")
 
-        await ctx.respond("Hello! Here's a cool embed.", embed=embed)
-
+        await ctx.respond(file=file, embed=embed)
 
 def setup(bot):
     bot.add_cog(Pp(bot))
