@@ -11,8 +11,8 @@ cogs_list = [
     "verify"
 ]
 
-#bot.database = mongo.Mon()
-#bot.database.connect()
+bot.database = mongo.Mon()
+bot.database.connect()
 
 @bot.event
 async def on_ready():
