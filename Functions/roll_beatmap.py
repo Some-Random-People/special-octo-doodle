@@ -1,7 +1,7 @@
 import random
 
 beat = []
-with open('../beatmap_list.txt', 'r') as x:
+with open('./beatmap_list.txt', 'r') as x:
     content = x.readlines()
     x.close()
 
