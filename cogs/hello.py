@@ -10,6 +10,11 @@ class Hello(commands.Cog):
     async def hello(self, ctx):
         await ctx.respond("Hello!")
 
+    @discord.command(description="Checks latency")
+    async def ping(self, ctx):
+        print(self.bot.latency)
+        await ctx.respond(f"Pong! Latency is {self.bot.latency}")
+
 
 def setup(bot):
     bot.add_cog(Hello(bot))
