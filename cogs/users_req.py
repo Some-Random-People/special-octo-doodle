@@ -7,7 +7,7 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-
+#All Api about user requests are here
 class Pp(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
@@ -26,7 +26,7 @@ class Pp(commands.Cog):
             )
             await ctx.respond(embed=embed, ephemeral=True)
             return
-        await ctx.respond(response.json()["statistics"]["pp"])
+        await ctx.respond(f"{userid}'s pp: {response.json()['statistics']['pp']}", ephemeral=True)
 
     @discord.command(description = "Show profile")
     async def profile(self, ctx, userid: str):
