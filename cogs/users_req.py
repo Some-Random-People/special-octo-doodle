@@ -7,11 +7,11 @@ from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
 
-#All Api about user requests are here
+
+# All Api about user requests are here
 class Pp(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-
 
     @discord.command(description="Checks player's pp")
     async def pp(self, ctx, userid: str):
@@ -28,7 +28,7 @@ class Pp(commands.Cog):
             return
         await ctx.respond(f"{userid}'s pp: {response.json()['statistics']['pp']}", ephemeral=True)
 
-    @discord.command(description = "Show profile")
+    @discord.command(description="Show profile")
     async def profile(self, ctx, userid: str):
         response = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid}/",
                                 headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"},
@@ -58,7 +58,7 @@ class Pp(commands.Cog):
         embed = discord.Embed(
             title=userid + "'s Profile",
             description=f":flag_{response['country_code'].lower()}:",
-            color = discord.Colour.blurple(),
+            color=discord.Colour.blurple(),
         )
         embed.add_field(name="Active", value=active_status, inline=True)
         embed.add_field(name="Online", value=online_status, inline=True)
@@ -66,14 +66,15 @@ class Pp(commands.Cog):
         embed.add_field(name="Stats", value=f"Global Rank: {response['statistics']['global_rank']}"
                                             f"\nCountry Rank: {response['statistics']['country_rank']}"
                                             f"\nPP: {response['statistics']['pp']}"
-                                            f"\nPlaytime: {response['statistics']['play_time']//3600}h"
-                    )
+                                            f"\nPlaytime: {response['statistics']['play_time'] // 3600}h"
+                        )
 
         embed.set_thumbnail(url=response["avatar_url"])
         file = discord.File("./Temp/plot.png", filename="plot.png")
-        embed.set_image(url = "attachment://plot.png")
+        embed.set_image(url="attachment://plot.png")
 
         await ctx.respond(file=file, embed=embed)
+
 
 def setup(bot):
     bot.add_cog(Pp(bot))
