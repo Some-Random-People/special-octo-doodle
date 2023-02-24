@@ -3,6 +3,7 @@ import discord
 import requests
 from Functions.rank_plot import plots
 from discord.ext import commands
+from discord.commands import Option
 from dotenv import load_dotenv, find_dotenv
 
 load_dotenv(find_dotenv())
@@ -29,7 +30,14 @@ class Users_req(commands.Cog):
         await ctx.respond(f"{userid}'s pp: {response.json()['statistics']['pp']}", ephemeral=True)
 
     @discord.command(description="Show profile")
-    async def profile(self, ctx, userid: str):
+    async def profile(self, ctx, userid: Option(str, "Enter osu user id", required=False)):
+        if not userid:
+            user_data = self.bot.database.check_user_discord(ctx.author.id)
+            if not user_data or not user_data["connected"]:
+                await ctx.respond(f"Try to verify using /verify or enter osu user id using /recent <osu user id>",
+                                  ephemeral=True)
+                return
+            userid = user_data["osuId"]
         response = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid}",
                                 headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"},
                                 )
