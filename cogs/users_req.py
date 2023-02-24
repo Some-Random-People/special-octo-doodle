@@ -30,7 +30,7 @@ class Pp(commands.Cog):
 
     @discord.command(description="Show profile")
     async def profile(self, ctx, userid: str):
-        response = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid}/",
+        response = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid}",
                                 headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"},
                                 )
 
@@ -44,6 +44,11 @@ class Pp(commands.Cog):
             return
 
         response = response.json()
+        userid_num = response["id"]
+        best_score = requests.get(f"https://osu.ppy.sh/api/v2/users/{userid_num}/scores/best",
+                                  headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"})
+        best_score = best_score.json()
+
         if response["is_active"]:
             active_status = ":green_circle:"
         else:
@@ -57,9 +62,19 @@ class Pp(commands.Cog):
 
         embed = discord.Embed(
             title=userid + "'s Profile",
-            description=f":flag_{response['country_code'].lower()}:",
-            color=discord.Colour.blurple(),
+            description=f":flag_{response['country_code'].lower()}: [Link](https://osu.ppy.sh/users/{userid_num})",
+            color=discord.Colour.nitro_pink()
         )
+
+        if response['playstyle']:
+            playstyle = ""
+            for x in response['playstyle']:
+                playstyle += x
+                playstyle += ", "
+            playstyle = playstyle[:-2]
+        else:
+            playstyle = "Not set"
+
         embed.add_field(name="Active", value=active_status, inline=True)
         embed.add_field(name="Online", value=online_status, inline=True)
         embed.add_field(name="", value="")
@@ -67,6 +82,15 @@ class Pp(commands.Cog):
                                             f"\nCountry Rank: {response['statistics']['country_rank']}"
                                             f"\nPP: {response['statistics']['pp']}"
                                             f"\nPlaytime: {response['statistics']['play_time'] // 3600}h"
+                                            f"\nAccuracy: {str(response['statistics']['hit_accuracy'])[:5]}%"
+                                            f"\nPlaystyle: {playstyle}"
+                                            f"\nTop play: {best_score[0]['pp']} pp"
+                        )
+        embed.add_field(name="Grades", value=f"SS: {response['statistics']['grade_counts']['ssh']}"
+                                             f"\nSS: {response['statistics']['grade_counts']['ss']}"   
+                                             f"\nS: {response['statistics']['grade_counts']['sh']}"
+                                             f"\nS: {response['statistics']['grade_counts']['s']}"
+                                             f"\nA: {response['statistics']['grade_counts']['a']}"
                         )
 
         embed.set_thumbnail(url=response["avatar_url"])
