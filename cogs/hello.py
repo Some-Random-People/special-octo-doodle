@@ -13,7 +13,7 @@ class Hello(commands.Cog):
     @discord.command(description="Checks latency")
     async def ping(self, ctx):
         print(self.bot.latency)
-        await ctx.respond(f"Pong! Latency is {int(self.bot.latency*1000)}ms")
+        await ctx.respond(f"Pong! Latency is {round(self.bot.latency*1000)}ms")
 
 
 def setup(bot):
