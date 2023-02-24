@@ -10,7 +10,8 @@ cogs_list = [
     "users_req",
     "hello",
     "verify",
-    "recent"
+    "recent",
+    "top"
 ]
 
 bot.database = mongo.Mon()
