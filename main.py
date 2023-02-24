@@ -8,7 +8,8 @@ bot = discord.Bot()
 cogs_list = [
     "users_req",
     "hello",
-    "verify"
+    "verify",
+    "recent"
 ]
 
 bot.database = mongo.Mon()
