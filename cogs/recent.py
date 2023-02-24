@@ -2,6 +2,7 @@ import os
 import discord
 import requests
 from Functions.map_pp_stats import calculate_pp, calculate_ss_pp
+from Functions.name_to_id import name_to_id
 from discord.ext import commands
 from discord.commands import Option
 from dotenv import load_dotenv, find_dotenv
@@ -23,6 +24,8 @@ class Recent(commands.Cog):
                                   ephemeral=True)
                 return
             osu_userid = user_data["osuId"]
+        else:
+            osu_userid = name_to_id(osu_userid)
         recent_play = requests.get(f"https://osu.ppy.sh/api/v2/users/{osu_userid}/scores/recent",
                                     headers={"Authorization": f"Bearer {os.getenv('OSU_TOKEN')}"},
                                     )
