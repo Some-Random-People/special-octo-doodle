@@ -9,7 +9,7 @@ load_dotenv(find_dotenv())
 
 
 # All Api about user requests are here
-class Pp(commands.Cog):
+class Users_req(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -61,8 +61,8 @@ class Pp(commands.Cog):
         plots(response["rank_history"]["data"])
 
         embed = discord.Embed(
-            title=userid + "'s Profile",
-            description=f":flag_{response['country_code'].lower()}: [Link](https://osu.ppy.sh/users/{userid_num})",
+            title="",
+            description=f"[:flag_{response['country_code'].lower()}: {response['country']['name']}](https://osu.ppy.sh/rankings/osu/performance?country={response['country_code']})",
             color=discord.Colour.nitro_pink()
         )
 
@@ -82,7 +82,7 @@ class Pp(commands.Cog):
                                             f"\nCountry Rank: {response['statistics']['country_rank']}"
                                             f"\nPP: {response['statistics']['pp']}"
                                             f"\nPlaytime: {response['statistics']['play_time'] // 3600}h"
-                                            f"\nAccuracy: {str(response['statistics']['hit_accuracy'])[:5]}%"
+                                            f"\nAccuracy: {round(response['statistics']['hit_accuracy'],2)}%"
                                             f"\nPlaystyle: {playstyle}"
                                             f"\nTop play: {best_score[0]['pp']} pp"
                         )
@@ -96,9 +96,9 @@ class Pp(commands.Cog):
         embed.set_thumbnail(url=response["avatar_url"])
         file = discord.File("./Temp/plot.png", filename="plot.png")
         embed.set_image(url="attachment://plot.png")
-
+        embed.set_author(name=response['username'] + "'s Profile", url=f"https://osu.ppy.sh/users/{userid_num}")
         await ctx.respond(file=file, embed=embed)
 
 
 def setup(bot):
-    bot.add_cog(Pp(bot))
+    bot.add_cog(Users_req(bot))
