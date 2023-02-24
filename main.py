@@ -28,7 +28,7 @@ async def on_application_command_error(ctx: discord.ApplicationContext, error: d
     if isinstance(error, commands.CommandOnCooldown):
         await ctx.respond("This command is currently on cooldown.", ephemeral=True)
     else:
-        raise
+        raise error
 
 for cog in cogs_list:
     bot.load_extension(f'cogs.{cog}')
