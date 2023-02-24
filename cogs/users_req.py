@@ -86,11 +86,11 @@ class Users_req(commands.Cog):
                                             f"\nPlaystyle: {playstyle}"
                                             f"\nTop play: {best_score[0]['pp']} pp"
                         )
-        embed.add_field(name="Grades", value=f"SS: {response['statistics']['grade_counts']['ssh']}"
-                                             f"\nSS: {response['statistics']['grade_counts']['ss']}"   
-                                             f"\nS: {response['statistics']['grade_counts']['sh']}"
-                                             f"\nS: {response['statistics']['grade_counts']['s']}"
-                                             f"\nA: {response['statistics']['grade_counts']['a']}"
+        embed.add_field(name="Grades", value=f"<:ssh:1078792293072506961> {response['statistics']['grade_counts']['ssh']}"
+                                             f"\n<:ss:1078793122626154546> {response['statistics']['grade_counts']['ss']}"   
+                                             f"\n<:sh:1078793120499650650> {response['statistics']['grade_counts']['sh']}"
+                                             f"\n<:s_:1078793117651697844> {response['statistics']['grade_counts']['s']}"
+                                             f"\n<:a_:1078793108571037868> {response['statistics']['grade_counts']['a']}"
                         )
 
         embed.set_thumbnail(url=response["avatar_url"])
