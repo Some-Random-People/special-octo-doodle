@@ -14,6 +14,7 @@ class Recent(commands.Cog):
         self.bot = bot
 
     @discord.command(description="Shows recent play")
+    @commands.cooldown(1, 10, commands.BucketType.user)
     async def recent(self, ctx, osu_userid: Option(str, "Enter osu user id", required=False)):
         if osu_userid:
             recent_play = requests.get(f"https://osu.ppy.sh/api/v2/users/{osu_userid}/scores/recent",
